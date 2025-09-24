@@ -1,0 +1,13 @@
+services:
+  datamapper:
+    container_name: datamapper
+    image: datamapper:latest
+    build:
+      context: .
+      args:
+        NODE_IMAGE: node:20-alpine
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./DSL:/workspace/app/DSL:ro
+    restart: unless-stopped
