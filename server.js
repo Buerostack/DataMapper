@@ -21,17 +21,39 @@ app.set("views", [path.join(__dirname, "views"), path.join(__dirname, "DSL")]);
 
 const sanitize = (s) => path.posix.normalize(String(s || "")).replace(/^(\.{2}(\/|\\|$))+/, "").replace(/^\/+/, "");
 const stripHbs = (name) => name.endsWith(".hbs") ? name.slice(0, -4) : name;
-const wantsJson = (req) => (req.get("type") || "").toLowerCase() === "json";
+
+function wantsJson(req) {
+  // original flag still supported
+  const explicit = (req.get("type") || "").toLowerCase() === "json";
+  // also honor the Accept header (json > html)
+  const accepts = req.accepts(["json", "html"]);
+  return explicit || accepts === "json";
+}
 
 function renderFirst(req, res, logicalNames) {
   const roots = Array.isArray(app.get("views")) ? app.get("views") : [app.get("views")];
   const found = logicalNames.find(name => roots.some(root => fs.existsSync(path.join(root, name + ".hbs"))));
-  if (!found) return res.status(404).json({ error: "TemplateNotFound", tried: logicalNames });
+  if (!found) {
+    return res.status(404).json({ error: "TemplateNotFound", tried: logicalNames });
+  }
+
   res.render(found, { layout: false, ...req.body }, (err, html) => {
     if (err) return res.status(500).json({ error: "TemplateRenderError", message: err.message, view: found });
-    if (!wantsJson(req)) return res.status(200).send(html);
-    try { return res.status(200).json(JSON.parse(html)); }
-    catch (e) { return res.status(200).json({ error: "TemplateOutputNotJson", message: e.message, view: found }); }
+
+    // If the client prefers JSON (Accept or custom header), or if the output is valid JSON, send JSON.
+    if (wantsJson(req)) {
+      try { return res.status(200).json(JSON.parse(html)); }
+      catch { return res.status(200).type("application/json").send(html); } // send raw but with JSON MIME
+    }
+
+    // If the output is actually JSON, be helpful and send JSON anyway
+    try {
+      const obj = JSON.parse(html);
+      return res.status(200).json(obj);
+    } catch (_) {
+      // not JSON → send as text/HTML
+      return res.status(200).send(html);
+    }
   });
 }
 
