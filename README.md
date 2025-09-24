@@ -19,8 +19,8 @@ This cleaned repository is maintained by Rainer Türner starting from September 
 ## Quick start (Docker Compose v2)
 
 ```bash
-git clone <your-repo-url> datamapper
-cd datamapper
+git clone https://github.com/Buerostack/DataMapper.git
+cd DataMapper
 docker compose up -d --build datamapper
 ```
 
