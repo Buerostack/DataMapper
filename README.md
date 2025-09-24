@@ -101,9 +101,3 @@ docker exec -it datamapper sh
 - **“Cannot POST /…​”** → The route didn’t match or the template path is wrong. Ensure the file exists at `DSL/<project>/<view>.hbs`.
 - **`TemplateNotFound`** → Filename/paths don’t match the URL (no extension in the URL).
 - **`TemplateOutputNotJson`** → You requested JSON but the template doesn’t render valid JSON. Fix the template or omit the JSON preference header.
-
----
-
-## License
-
-Choose a license suitable for publishing this cleaned version of DataMapper. Credit **RIA/Bürokratt** as the original holder and **Rainer Türner** as the architect/original lead and current maintainer of this clean repository.
