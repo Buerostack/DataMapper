@@ -8,11 +8,11 @@ DataMapper turns **Handlebars `.hbs` DSL files** into **REST endpoints**. Place 
 
 Originally developed and maintained at the Information System Authority of Estonia (Riigi Infosüsteemi Amet, RIA) since June 2018. Designed and development led by [Rainer Türner](https://www.linkedin.com/in/rainer-t%C3%BCrner-aba66274/) until April 2025.
 
-Ruuter's original repository is https://github.com/buerokratt/DataMapper
+DataMapper's original repository is https://github.com/buerokratt/DataMapper
 
 ## Current repository
 
-This cleaned repository is maintained by Rainer Türner starting from September 24, 2025, with an intention to have a clean version of Ruuter to work on, without affecting its owner RIA.
+This cleaned repository is maintained by Rainer Türner starting from September 24, 2025, with an intention to have a clean version of DataMapper to work on, without affecting its owner RIA.
 
 ---
 
