@@ -1,0 +1,12 @@
+{
+  "name": "datamapper-basic-usage-example",
+  "version": "1.0.0",
+  "description": "Basic usage example for DataMapper",
+  "private": true,
+  "scripts": {
+    "test": "echo 'Run the curl commands in README.md to test'"
+  },
+  "keywords": ["datamapper", "example", "handlebars"],
+  "author": "Rainer Türner",
+  "license": "MIT"
+}

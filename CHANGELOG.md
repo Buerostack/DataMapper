@@ -8,8 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- ADR 001: Software Publishing Rules documentation in `docs/001-Software-Publishing/`
 - CHANGELOG.md file to track project changes
+- CONTRIBUTING.md with development guidelines and PR process
+- Complete documentation structure following ADR 001 standards:
+  - `docs/architecture/overview.md` - System architecture with Mermaid diagrams
+  - `docs/architecture/data-flow.md` - Request processing and data flow diagrams
+  - `docs/architecture/file-structure.md` - Project structure documentation
+  - `docs/how-to/create-template.md` - Guide for creating DSL templates
+- Runnable basic usage example in `examples/basic-usage/`
 
 ### Changed
 - Updated README.md Origin and Ownership sections for clarity and consistency
