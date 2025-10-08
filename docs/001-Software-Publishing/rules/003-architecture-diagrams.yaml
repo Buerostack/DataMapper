@@ -1,0 +1,94 @@
+# Metadata
+id: "003"
+title: Architecture Diagram Requirements
+status: active
+created: 2025-10-08
+updated: 2025-10-08
+
+# Human Documentation
+context: |
+  Components lack visual documentation, forcing developers to read code to understand system structure and data flow.
+
+decision: |
+  All components must include exactly 2 Mermaid diagrams: component overview and data flow, even for standalone components.
+
+rationale: |
+  Visual documentation accelerates onboarding, clarifies architecture, and remains consistent as components evolve. Mermaid enables version control and markdown embedding.
+
+consequences: |
+  Developers must create and maintain diagrams. Simple standalone components still require diagrams showing their isolation or minimal dependencies.
+
+examples:
+  compliant: |
+    # docs/architecture/overview.md
+
+    ## Component Overview
+
+    ```mermaid
+    graph TD
+        A[MyComponent] --> B[(Database)]
+        A --> C[External API]
+    ```
+
+    # docs/architecture/data-flow.md
+
+    ## Data Flow
+
+    ```mermaid
+    sequenceDiagram
+        Client->>MyComponent: Request
+        MyComponent->>Database: Query
+        Database->>MyComponent: Result
+        MyComponent->>Client: Response
+    ```
+
+  violation: |
+    # docs/architecture/overview.md
+
+    This component does X, Y, Z.
+    # Missing: Mermaid diagram
+
+    # Or using non-Mermaid format:
+    ![architecture.png]
+
+# Machine-Readable Constraints
+constraints:
+  allowed:
+    - mermaid
+
+  forbidden:
+    - plantuml
+    - drawio
+    - visio
+    - image-files
+
+  patterns:
+    - regex: "```mermaid"
+      description: Must use Mermaid diagram format
+    - regex: "graph (TD|LR|TB)"
+      description: Component diagram must use graph syntax
+    - regex: "sequenceDiagram"
+      description: Data flow must use sequence diagram
+
+  thresholds:
+    min_diagrams_total: 2
+    min_component_diagrams: 1
+    min_dataflow_diagrams: 1
+    max_diagram_formats: 1
+
+# Validation Configuration
+validation:
+  levels:
+    - static-analysis
+    - unit
+
+  enforcement_method: linter
+
+  test_patterns:
+    - "tests/unit/diagrams/*.test.js"
+
+  tools:
+    - name: mermaid-cli
+      config: .mermaid.json
+    - name: diagram-validator
+      config: .validation/diagram-requirements.json

@@ -1,0 +1,118 @@
+# Metadata
+id: "002"
+title: README.md Structure Requirements
+status: active
+created: 2025-10-08
+updated: 2025-10-08
+
+# Human Documentation
+context: |
+  README files vary wildly in structure and content, making it difficult for users to find essential information quickly.
+
+decision: |
+  All README.md files must follow a standardized section order and include mandatory sections.
+
+rationale: |
+  Consistent README structure improves discoverability, reduces cognitive load, and ensures critical information is never missing.
+
+consequences: |
+  Developers must structure READMEs according to template. Automated linting validates section presence and order.
+
+examples:
+  compliant: |
+    # Component Name
+
+    ![Build Status] ![Version] ![License]
+
+    ## About
+    Brief description of what it does.
+
+    **Maintained by**: Team Name
+    **Background**: Why it was created
+    **Status**: Active
+
+    ## Quick Start
+    ```bash
+    # Working example in <5 minutes
+    ```
+
+    ## Installation
+    Step-by-step setup
+
+    ## Basic Usage
+    Common use cases with code
+
+    ## Documentation
+    Links to docs/
+
+    ## Contributing
+    Link to CONTRIBUTING.md
+
+    ## License
+    License type with link
+
+  violation: |
+    # Component Name
+
+    Some random content without structure.
+
+    ## Installation
+    ## About
+    # Wrong order and missing sections
+
+# Machine-Readable Constraints
+constraints:
+  allowed:
+    - Header
+    - About
+    - Quick Start
+    - Installation
+    - Basic Usage
+    - Documentation
+    - Contributing
+    - License
+
+  forbidden: []
+
+  patterns:
+    - regex: "^#\\s+.+$"
+      description: Must have H1 header with component name
+    - regex: "##\\s+About"
+      description: Must have About section
+    - regex: "##\\s+Quick Start"
+      description: Must have Quick Start section
+    - regex: "##\\s+Installation"
+      description: Must have Installation section
+    - regex: "##\\s+Basic Usage"
+      description: Must have Basic Usage section
+    - regex: "##\\s+Documentation"
+      description: Must have Documentation section
+    - regex: "##\\s+Contributing"
+      description: Must have Contributing section
+    - regex: "##\\s+License"
+      description: Must have License section
+    - regex: "\\*\\*Maintained by\\*\\*:"
+      description: Must specify maintainer
+    - regex: "\\*\\*Status\\*\\*:"
+      description: Must specify project status
+
+  thresholds:
+    min_sections: 8
+    max_quick_start_minutes: 5
+
+# Validation Configuration
+validation:
+  levels:
+    - static-analysis
+    - unit
+
+  enforcement_method: linter
+
+  test_patterns:
+    - "tests/unit/readme/*.test.js"
+
+  tools:
+    - name: markdown-lint
+      config: .markdownlint.json
+    - name: readme-validator
+      config: .validation/readme-schema.json

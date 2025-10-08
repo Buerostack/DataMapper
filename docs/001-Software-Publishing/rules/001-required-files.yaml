@@ -1,0 +1,89 @@
+# Metadata
+id: "001"
+title: Required Documentation Files
+status: active
+created: 2025-10-08
+updated: 2025-10-08
+
+# Human Documentation
+context: |
+  Components lack consistent documentation structure, making onboarding difficult and maintenance unpredictable.
+
+decision: |
+  All published components must include a standardized set of documentation files in specific locations.
+
+rationale: |
+  Consistent file structure enables automated validation, improves developer experience, and ensures completeness.
+
+consequences: |
+  Developers must create all required files before publishing. Automated checks prevent incomplete documentation from being published.
+
+examples:
+  compliant: |
+    component-name/
+    ├── README.md
+    ├── LICENSE
+    ├── CHANGELOG.md
+    ├── CONTRIBUTING.md
+    ├── docs/
+    │   ├── architecture/
+    │   ├── how-to/
+    │   └── reference/
+    └── examples/
+
+  violation: |
+    component-name/
+    ├── README.md
+    └── src/
+    # Missing: LICENSE, CHANGELOG.md, CONTRIBUTING.md, docs/, examples/
+
+# Machine-Readable Constraints
+constraints:
+  allowed: []
+
+  forbidden: []
+
+  patterns:
+    - regex: "^README\\.md$"
+      description: README.md must exist at root
+    - regex: "^LICENSE$"
+      description: LICENSE file must exist at root
+    - regex: "^CHANGELOG\\.md$"
+      description: CHANGELOG.md must exist at root
+    - regex: "^CONTRIBUTING\\.md$"
+      description: CONTRIBUTING.md must exist at root
+    - regex: "^docs/architecture/overview\\.md$"
+      description: Architecture overview must exist
+    - regex: "^docs/architecture/data-flow\\.md$"
+      description: Data flow documentation must exist
+    - regex: "^docs/architecture/file-structure\\.md$"
+      description: File structure documentation must exist
+    - regex: "^docs/how-to/$"
+      description: how-to directory must exist
+    - regex: "^docs/reference/$"
+      description: reference directory must exist
+    - regex: "^examples/$"
+      description: examples directory must exist
+
+  thresholds:
+    min_required_files: 8
+    min_architecture_docs: 3
+    min_examples: 1
+
+# Validation Configuration
+validation:
+  levels:
+    - static-analysis
+    - integration
+
+  enforcement_method: test
+
+  test_patterns:
+    - "tests/integration/documentation/*.test.js"
+    - "tests/integration/documentation/*.test.py"
+
+  tools:
+    - name: file-existence-checker
+      config: .validation/file-requirements.json
+    - name: pytest
+      config: pytest.ini

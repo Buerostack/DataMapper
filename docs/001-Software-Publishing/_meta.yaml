@@ -1,0 +1,9 @@
+id: "001"
+title: Software Publishing Rules
+status: draft
+created: 2025-10-08
+updated: 2025-10-08
+supersedes: []
+owner: architecture-team
+scope: software-publishing
+description: Rules governing both custom-made and OTS (Off-The-Shelf) software publishing and adoption
